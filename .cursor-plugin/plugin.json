@@ -1,0 +1,11 @@
+{
+  "name": "esa-cli",
+  "description": "esa CLI skill for AI agents - search, read, create, and manage esa posts via CLI",
+  "version": "1.0.0",
+  "author": { "name": "esa LLC" },
+  "homepage": "https://github.com/esaio/esa-skills",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "keywords": ["esa", "cli", "knowledge-base"],
+  "skills": "./skills/"
+}

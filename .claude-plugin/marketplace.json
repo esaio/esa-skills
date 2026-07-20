@@ -1,0 +1,26 @@
+{
+  "name": "esa-skills",
+  "metadata": {
+    "description": "esa の記事・コメント・カテゴリ・タグ・メンバー・添付などを AI エージェントから操作するスキル集"
+  },
+  "owner": {
+    "name": "esa LLC"
+  },
+  "plugins": [
+    {
+      "name": "esa-cli",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/esa-cli"],
+      "description": "esa CLI skill for AI agents - search, read, create, and manage esa posts via CLI",
+      "version": "1.0.0",
+      "author": {
+        "name": "esa LLC"
+      },
+      "homepage": "https://github.com/esaio/esa-skills",
+      "repository": "https://github.com/esaio/esa-skills",
+      "license": "MIT",
+      "keywords": ["esa", "cli", "knowledge-base"]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "esa-skills",
+  "owner": { "name": "esa LLC" },
+  "metadata": {
+    "description": "esa skills for AI coding agents"
+  },
+  "plugins": [
+    {
+      "name": "esa-cli",
+      "source": "./"
+    }
+  ]
+}

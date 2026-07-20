@@ -1,0 +1,16 @@
+{
+  "name": "@esaio/esa-skills",
+  "version": "1.0.0",
+  "description": "esa skills for AI agents",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "author": "esa LLC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esaio/esa-skills.git"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  }
+}
