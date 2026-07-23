@@ -70,7 +70,7 @@ codex plugin marketplace add https://github.com/esaio/esa-skills
 codex plugin add esa@esa-skills
 ```
 
-#### Cursor Agent
+### Cursor Agent
 
 ```bash
 cursor-agent plugin marketplace add https://github.com/esaio/esa-skills
@@ -83,6 +83,24 @@ esa をインストールしてください。
 
 ```bash
 gemini extensions install https://github.com/esaio/esa-skills
+```
+
+### 任意のエージェント（npx skills）
+
+[`npx skills`](https://github.com/vercel-labs/skills) は各エージェント横断の
+スキルパッケージマネージャです。検出したコーディングエージェントすべてに
+esa-cli を 1 コマンドで導入できます。複数のエージェントを併用している場合や、
+上記に無いエージェントを使う場合に便利です。
+
+```bash
+# 検出した全エージェントに導入（プロジェクト単位）
+npx skills add esaio/esa-skills
+
+# 特定のエージェントだけに導入
+npx skills add esaio/esa-skills --agent claude-code
+
+# 全プロジェクト共通で導入
+npx skills add esaio/esa-skills --global
 ```
 
 ## 作者
