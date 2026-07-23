@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "esa-cli",
+      "name": "esa",
       "source": "./",
       "strict": false,
       "skills": ["./skills/esa-cli"],

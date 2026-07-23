@@ -60,14 +60,14 @@ esa auth login
 
 ```
 claude plugin marketplace add https://github.com/esaio/esa-skills
-claude plugin install esa-cli@esa-skills
+claude plugin install esa@esa-skills
 ```
 
 ### Codex CLI
 
 ```bash
 codex plugin marketplace add https://github.com/esaio/esa-skills
-codex plugin add esa-cli@esa-skills
+codex plugin add esa@esa-skills
 ```
 
 #### Cursor Agent
@@ -77,7 +77,7 @@ cursor-agent plugin marketplace add https://github.com/esaio/esa-skills
 ```
 
 追加後、`cursor-agent` を対話モードで起動して `/plugin` を開き、Marketplace から
-esa-cli をインストールしてください。
+esa をインストールしてください。
 
 ### Gemini CLI
 

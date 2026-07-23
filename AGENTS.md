@@ -43,6 +43,17 @@ frontmatter の `name` はディレクトリ名と一致させること（Agent 
 スキル名を変える場合はディレクトリ名・`name`・`.claude-plugin/marketplace.json` の
 `skills` を揃えて変更する。
 
+プラグイン名（＝各マニフェストの `name`）は `esa`、スキル名は `esa-cli` で、
+意図的に別にしている。Claude Code などは一覧やツール名を `プラグイン名:スキル名`
+の形で表示するため、両方 `esa-cli` にすると `esa-cli:esa-cli` と重複して見える。
+プラグイン名 = 名前空間（`esa`）、スキル名 = 具体的な機能（`esa-cli`）にして
+`esa:esa-cli` と読めるようにしてある。プラグイン名は次の 4 箇所で揃える。
+
+- `.claude-plugin/marketplace.json` の `plugins[0].name`
+- `.cursor-plugin/marketplace.json` の `plugins[0].name`
+- `.cursor-plugin/plugin.json` の `name`
+- `gemini-extension.json` の `name`
+
 ## Validation
 
 ```bash
@@ -85,7 +96,7 @@ gemini extensions validate .
 
 ```bash
 claude plugin marketplace add "$PWD"
-claude plugin install esa-cli@esa-skills
-claude plugin details esa-cli@esa-skills   # Skills (1) esa-cli が出れば OK
-claude plugin uninstall esa-cli@esa-skills && claude plugin marketplace remove esa-skills
+claude plugin install esa@esa-skills
+claude plugin details esa@esa-skills   # Skills (1) esa-cli が出れば OK
+claude plugin uninstall esa@esa-skills && claude plugin marketplace remove esa-skills
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "esa-cli",
+  "name": "esa",
   "description": "esa CLI skill for AI agents - search, read, create, and manage esa posts via CLI",
   "version": "1.0.0"
 }

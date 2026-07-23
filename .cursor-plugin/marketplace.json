@@ -6,7 +6,7 @@
   },
   "plugins": [
     {
-      "name": "esa-cli",
+      "name": "esa",
       "source": "./"
     }
   ]
