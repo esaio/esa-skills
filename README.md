@@ -85,6 +85,23 @@ from the Marketplace.
 gemini extensions install https://github.com/esaio/esa-skills
 ```
 
+### Any agent (npx skills)
+
+[`npx skills`](https://github.com/vercel-labs/skills) is a cross-agent skills
+package manager. It installs esa-cli into every coding agent it detects with a
+single command — handy when you use more than one agent, or one not listed above.
+
+```bash
+# Install into all detected agents (project-local)
+npx skills add esaio/esa-skills
+
+# Target a specific agent
+npx skills add esaio/esa-skills --agent claude-code
+
+# Install for all your projects
+npx skills add esaio/esa-skills --global
+```
+
 ## Author
 
 [esa LLC](https://esa.io)
