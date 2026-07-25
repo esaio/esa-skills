@@ -1,13 +1,15 @@
 ---
 name: esa-cli
-description: esa の記事・コメント・カテゴリ・タグ・メンバー・チーム・添付ファイルを操作する CLI ツール。「esa の記事を検索して」「記事読んで」「esa に投稿して」「この記事にコメントして」「添付を保存して」といったリクエストで使う。
+description: esa の記事・コメント・カテゴリ・タグ・メンバー・チーム・添付ファイルを操作する CLI ツール。「esa の記事を検索して」「記事読んで」「esa に投稿して」「この記事にコメントして」「添付を保存して」といったリクエストで使う。 Use for requests to search, read, create, or update esa posts, comment on posts, browse team information, and upload or download attachments from esa.io.
+license: MIT
 ---
 
 # esa CLI
 
 esa（esa.io）を `esa` コマンド（`@esaio/esa-cli`）で操作する。
 
-- 出力はすべて JSON で標準出力に出る。人間向けメッセージは標準エラー。`jq` でパースできる。
+- API レスポンスは JSON で標準出力に出る。人間向けメッセージは標準エラー。`jq` でパースできる。
+- `esa attachment download` は例外で、ファイル本体を出力する。通常は `--output <path>` で保存する。
 - ここに載せるのは頻出の操作だけ。サブコマンドとオプションの全体は
   `esa --help` / `esa <command> --help` で確認する。
 
@@ -36,7 +38,8 @@ esa（esa.io）を `esa` コマンド（`@esaio/esa-cli`）で操作する。
 - `esa category` / `esa tag` / `esa member` — それぞれ list
 - `esa team` — list / stats
 - `esa user` — 認証ユーザーの情報
-- `esa attachment` — sign / download
+- `esa attachment` — sign / download / upload
+- `esa feedback` — create
 - `esa config` — set / get
 - `esa api <path>` — 専用コマンドが無い API を直接叩く
 
@@ -55,8 +58,19 @@ esa post append 123 --body "末尾に追記"
 
 esa comment create 123 --body "コメント本文"
 
-esa post delete 123 --yes          # 非対話環境では --yes が必要（comment delete も同様）
+esa attachment upload ./diagram.png
+
+# 非対話環境での削除。ユーザーが明示的に削除を依頼し、対象を確認した後だけ実行する
+esa post delete 123 --yes          # comment delete も同様
 ```
+
+## 変更操作の安全性
+
+- 作成・更新・コメント時は、対象チームと WIP / Ship の状態を依頼から確定できない場合だけ確認する。
+- 記事の更新・アーカイブ・ロールバック・削除前に `esa post get <number>` で対象を確認する。
+- 削除はユーザーが明示的に依頼した場合だけ行う。対象や意図が曖昧なら確認し、
+  `--yes` は対象確認後の非対話実行にだけ使う。
+- `esa api` で DELETE などの破壊的操作を行う場合も同じ基準を適用する。
 
 ## 本文の渡し方
 
@@ -91,6 +105,8 @@ echo '{"post":{"name":"Hi","wip":false}}' | esa api /v1/teams/{team}/posts --inp
 
 - 記事 URL `https://<team>.esa.io/posts/123` → 番号は `123`。
 - 更新時はまず `esa post get <id>` で現在の本文を取得してから変更を加える。
+- list 系コマンドは通常 1 ページだけ取得する。「すべて」と依頼された場合は出力の
+  ページ情報を確認して最終ページまで取得する。`esa category list` では `--all` も使える。
 - 本文の受け渡しは 2 種類あるので混同しない:
   - `--body-file -`: 本文テキストだけを標準入力から受け取る（`jq -r` で組み立て）。
   - `esa api ... --input -`: ボディ JSON 全体を標準入力から受け取る（`jq -n` で組み立て）。

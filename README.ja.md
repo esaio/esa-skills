@@ -23,7 +23,7 @@ esa CLI を通じて AI エージェントに esa を操作させるスキル。
 - **コメント** — 一覧 / 取得 / 作成 / 更新 / 削除
 - **カテゴリ** — パス一覧
 - **タグ / メンバー / チーム** — 一覧 / 統計
-- **添付ファイル** — 署名付き URL 取得 / ダウンロード
+- **添付ファイル** — 署名付き URL 取得 / ダウンロード / アップロード
 - **エスケープハッチ** — `esa api` で任意の esa API パスを呼ぶ
 
 #### 利用例
@@ -84,6 +84,20 @@ esa をインストールしてください。
 ```bash
 gemini extensions install https://github.com/esaio/esa-skills
 ```
+
+### 任意のエージェント（GitHub CLI）
+
+GitHub CLI の `gh skill` は、GitHub リポジトリの Agent Skill を各エージェントの
+適切なディレクトリへインストールします。
+
+```bash
+# Codex のユーザースコープへ導入
+gh skill install esaio/esa-skills esa-cli --agent codex --scope user
+
+# --agent には claude-code / cursor / gemini-cli なども指定可能
+```
+
+`gh skill` はプレビュー機能のため、コマンドや挙動が変更される可能性があります。
 
 ### 任意のエージェント（npx skills）
 

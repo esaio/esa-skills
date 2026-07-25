@@ -23,7 +23,7 @@ A skill that enables AI agents to operate esa through the esa CLI.
 - **Comments** — List, get, create, update, delete
 - **Categories** — List paths
 - **Tags / Members / Team** — List, stats
-- **Attachments** — Sign, download
+- **Attachments** — Sign, download, upload
 - **Escape hatch** — Call any esa API path via `esa api`
 
 #### Usage Examples
@@ -84,6 +84,20 @@ from the Marketplace.
 ```bash
 gemini extensions install https://github.com/esaio/esa-skills
 ```
+
+### Any agent (GitHub CLI)
+
+The `gh skill` command installs Agent Skills from GitHub repositories into the
+appropriate directory for each supported agent.
+
+```bash
+# Install for Codex at user scope
+gh skill install esaio/esa-skills esa-cli --agent codex --scope user
+
+# --agent also accepts claude-code, cursor, gemini-cli, and others
+```
+
+`gh skill` is a preview feature, so its commands and behavior may change.
 
 ### Any agent (npx skills)
 
