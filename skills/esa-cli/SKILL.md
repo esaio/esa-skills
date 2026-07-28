@@ -13,26 +13,24 @@ esa（esa.io）を `esa` コマンド（`@esaio/esa-cli`）で操作する。
 
 ## 出力の形式
 
-**JSON は `--json` を付けたときだけ出る。** 既定の出力は端末とパイプで形が変わる。
+コマンドの結果は stdout、確認・エラーなど人間向けのメッセージは stderr に出る。
+結果の形は出力先で変わり、端末では読みやすく整形され、パイプでは機械が扱いやすい
+テキストになる。一覧は TSV（見出し無しのタブ区切り。タブ・改行は空白に均される）、
+1 件表示は `key<TAB>value` の行（本文を持つものは `--` の後に本文が続く）。
 
-- 一覧（`post list` / `comment list` / `category list` など）はパイプでは
-  見出し無しのタブ区切り。値に含まれるタブ・改行は空白に均される。
-- 1 件表示（`post view` / `comment view` / `user` / `team stats`）はパイプでは
-  `key<TAB>value` の行が並び、本文を持つものは `--` の後に本文が続く。
-- **値を機械的に扱うときは `--json <fields>` を付ける。** フィールド名を省いて
-  `--json` だけ渡すと、指定できるフィールドの候補が表示される。
-- 作成・更新系（create / update / append / prepend / archive / duplicate /
-  rollback / `attachment upload`）は stdout に URL だけを出し、確認の 1 行は stderr。
-  削除は stdout に何も出さない。
-- 例外は 2 つ。`esa api` は API のレスポンスをそのまま JSON で返し、
-  `esa attachment download` はファイル本体を出力する（通常は `--output <path>` で保存）。
-- 人間向けメッセージとエラーは常に stderr。
+JSON で受け取りたいときは `--json <fields>` を付ける。指定したフィールドだけが
+JSON になり、フィールド名を省いて `--json` だけ渡すと候補が表示される。
 
 ```bash
 esa post list --json number,full_name,url   # 機械的に扱うならこれ
 esa post view 123 --json body_md            # 本文だけを取り出す
 esa post list --json                        # 指定できるフィールドを確認
 ```
+
+- 作成・更新（create / update / append / prepend / archive / duplicate / rollback /
+  `attachment upload`）の stdout は URL だけ。削除は stdout に何も出さない。
+- `esa api` は API のレスポンスをそのまま JSON で返す。
+- `esa attachment download` はファイル本体を出す（通常は `--output <path>` で保存）。
 
 ## 認証
 
@@ -129,8 +127,8 @@ echo '{"post":{"name":"Hi","wip":false}}' | esa api /v1/teams/{team}/posts --inp
 - 記事 URL `https://<team>.esa.io/posts/123` → 番号は `123`。
 - 更新時はまず `esa post view <id> --json body_md` で現在の本文を取得してから変更を加える。
 - list 系コマンドは通常 1 ページだけ取得する。ページ情報（`total_count` / `next_page` など）は
-  `--json` を付けたときだけ出るので、「すべて」と依頼された場合は `--json` で
-  `next_page` を見ながら `--page` を進める。`esa category list` では `--all` も使える。
+  `--json` の出力に含まれるので、「すべて」と依頼された場合は `next_page` を見ながら
+  `--page` を進める。`esa category list` では `--all` も使える。
 - 本文の受け渡しは 2 種類あるので混同しない:
   - `--body-file -`: 本文テキストだけを標準入力から受け取る（`jq -r` で組み立て）。
   - `esa api ... --input -`: ボディ JSON 全体を標準入力から受け取る（`jq -n` で組み立て）。
