@@ -19,11 +19,12 @@ A skill that enables AI agents to operate esa through the esa CLI.
 
 #### Features
 
-- **Posts** — Search, get, create, update, append/prepend, duplicate, rollback, archive, delete
-- **Comments** — List, get, create, update, delete
+- **Posts** — Search, view, create, update, append/prepend, duplicate, rollback, archive, delete
+- **Comments** — List, view, create, update, delete
 - **Categories** — List paths
 - **Tags / Members / Team** — List, stats
-- **Attachments** — Sign, download, upload
+- **Attachments** — Upload, sign, download
+- **Feedback** — Send feedback to the esa.io team
 - **Escape hatch** — Call any esa API path via `esa api`
 
 #### Usage Examples
@@ -39,13 +40,14 @@ A skill that enables AI agents to operate esa through the esa CLI.
 ## Prerequisites
 
 - Claude Code, Cursor, Gemini CLI, or Codex CLI installed
+- Node.js >= 24.18.0 / npm >= 11.7.0
 - [esa CLI](https://www.npmjs.com/package/@esaio/esa-cli) (`@esaio/esa-cli`) installed
 - Authenticated with the esa CLI (`esa auth login`)
 
 ### Install the esa CLI
 
 ```bash
-npm install -g @esaio/esa-cli
+npm install --ignore-scripts -g @esaio/esa-cli
 ```
 
 ### Authentication

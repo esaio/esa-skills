@@ -19,11 +19,12 @@ esa CLI を通じて AI エージェントに esa を操作させるスキル。
 
 #### できること
 
-- **記事** — 検索 / 取得 / 作成 / 更新 / 追記 / 複製 / ロールバック / アーカイブ / 削除
-- **コメント** — 一覧 / 取得 / 作成 / 更新 / 削除
+- **記事** — 検索 / 表示 / 作成 / 更新 / 追記 / 複製 / ロールバック / アーカイブ / 削除
+- **コメント** — 一覧 / 表示 / 作成 / 更新 / 削除
 - **カテゴリ** — パス一覧
 - **タグ / メンバー / チーム** — 一覧 / 統計
-- **添付ファイル** — 署名付き URL 取得 / ダウンロード / アップロード
+- **添付ファイル** — アップロード / 署名付き URL 取得 / ダウンロード
+- **フィードバック** — esa.io 運営への意見送信
 - **エスケープハッチ** — `esa api` で任意の esa API パスを呼ぶ
 
 #### 利用例
@@ -39,13 +40,14 @@ esa CLI を通じて AI エージェントに esa を操作させるスキル。
 ## 前提
 
 - Claude Code / Cursor / Gemini CLI / Codex CLI のいずれか
+- Node.js >= 24.18.0 / npm >= 11.7.0
 - [esa CLI](https://www.npmjs.com/package/@esaio/esa-cli)（`@esaio/esa-cli`）のインストール
 - esa CLI で認証済み（`esa auth login`）
 
 ### esa CLI のインストール
 
 ```bash
-npm install -g @esaio/esa-cli
+npm install --ignore-scripts -g @esaio/esa-cli
 ```
 
 ### 認証

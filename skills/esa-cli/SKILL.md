@@ -8,10 +8,31 @@ license: MIT
 
 esa（esa.io）を `esa` コマンド（`@esaio/esa-cli`）で操作する。
 
-- API レスポンスは JSON で標準出力に出る。人間向けメッセージは標準エラー。`jq` でパースできる。
-- `esa attachment download` は例外で、ファイル本体を出力する。通常は `--output <path>` で保存する。
-- ここに載せるのは頻出の操作だけ。サブコマンドとオプションの全体は
-  `esa --help` / `esa <command> --help` で確認する。
+ここに載せるのは頻出の操作だけ。サブコマンドとオプションの全体は
+`esa --help` / `esa <command> --help` で確認する。
+
+## 出力の形式
+
+**JSON は `--json` を付けたときだけ出る。** 既定の出力は端末とパイプで形が変わる。
+
+- 一覧（`post list` / `comment list` / `category list` など）はパイプでは
+  見出し無しのタブ区切り。値に含まれるタブ・改行は空白に均される。
+- 1 件表示（`post view` / `comment view` / `user` / `team stats`）はパイプでは
+  `key<TAB>value` の行が並び、本文を持つものは `--` の後に本文が続く。
+- **値を機械的に扱うときは `--json <fields>` を付ける。** フィールド名を省いて
+  `--json` だけ渡すと、指定できるフィールドの候補が表示される。
+- 作成・更新系（create / update / append / prepend / archive / duplicate /
+  rollback / `attachment upload`）は stdout に URL だけを出し、確認の 1 行は stderr。
+  削除は stdout に何も出さない。
+- 例外は 2 つ。`esa api` は API のレスポンスをそのまま JSON で返し、
+  `esa attachment download` はファイル本体を出力する（通常は `--output <path>` で保存）。
+- 人間向けメッセージとエラーは常に stderr。
+
+```bash
+esa post list --json number,full_name,url   # 機械的に扱うならこれ
+esa post view 123 --json body_md            # 本文だけを取り出す
+esa post list --json                        # 指定できるフィールドを確認
+```
 
 ## 認証
 
@@ -32,22 +53,23 @@ esa（esa.io）を `esa` コマンド（`@esaio/esa-cli`）で操作する。
 
 ## コマンドの構成
 
-- `esa post` — 記事。list / search / get / create / update / append / prepend /
-  duplicate / rollback / revisions / backlinks / archive / delete
-- `esa comment` — コメント。list / get / create / update / delete
+- `esa post` — 記事。list / search / view（`get` は別名）/ create / update /
+  append / prepend / duplicate / rollback / revisions / backlinks / archive / delete
+- `esa comment` — コメント。list / view（`get` は別名）/ create / update / delete
 - `esa category` / `esa tag` / `esa member` — それぞれ list
 - `esa team` — list / stats
 - `esa user` — 認証ユーザーの情報
-- `esa attachment` — sign / download / upload
-- `esa feedback` — create
-- `esa config` — set / get
+- `esa attachment` — upload / sign / download
+- `esa feedback` — create（esa.io 運営へのフィードバック送信）
+- `esa config` — set / get。キーは `default-team` と `language`（`esa config --help` で一覧）
 - `esa api <path>` — 専用コマンドが無い API を直接叩く
 
 ## よく使う操作
 
 ```bash
 esa post list -q "wip:true"        # 検索クエリで絞り込み（search <query> でも同じ）
-esa post get 123                   # 記事を 1 件取得
+esa post view 123                  # 記事を 1 件表示（本文込み）
+esa post view 123 --json body_md   # 本文だけを JSON で取り出す
 esa post revisions 123             # rollback に渡すリビジョン番号を調べる
 
 # 作成。名前に "/" を含めるとカテゴリになる（--category でも指定可）。既定は WIP
@@ -58,7 +80,7 @@ esa post append 123 --body "末尾に追記"
 
 esa comment create 123 --body "コメント本文"
 
-esa attachment upload ./diagram.png
+esa attachment upload ./diagram.png   # stdout に添付の URL が出る
 
 # 非対話環境での削除。ユーザーが明示的に削除を依頼し、対象を確認した後だけ実行する
 esa post delete 123 --yes          # comment delete も同様
@@ -67,7 +89,7 @@ esa post delete 123 --yes          # comment delete も同様
 ## 変更操作の安全性
 
 - 作成・更新・コメント時は、対象チームと WIP / Ship の状態を依頼から確定できない場合だけ確認する。
-- 記事の更新・アーカイブ・ロールバック・削除前に `esa post get <number>` で対象を確認する。
+- 記事の更新・アーカイブ・ロールバック・削除前に `esa post view <number>` で対象を確認する。
 - 削除はユーザーが明示的に依頼した場合だけ行う。対象や意図が曖昧なら確認し、
   `--yes` は対象確認後の非対話実行にだけ使う。
 - `esa api` で DELETE などの破壊的操作を行う場合も同じ基準を適用する。
@@ -76,6 +98,7 @@ esa post delete 123 --yes          # comment delete も同様
 
 記事・コメントの本文（Markdown）は `--body` でインライン指定するか、
 `--body-file <path>`（`-` で標準入力）で渡す。長い本文は `--body-file` か HEREDOC を使う。
+`esa feedback create` だけは `-m, --message` / `--message-file`（`--body` / `--body-file` は別名）。
 
 ```bash
 cat note.md | esa post create "タイトル" --body-file -
@@ -104,9 +127,12 @@ echo '{"post":{"name":"Hi","wip":false}}' | esa api /v1/teams/{team}/posts --inp
 ## Tips
 
 - 記事 URL `https://<team>.esa.io/posts/123` → 番号は `123`。
-- 更新時はまず `esa post get <id>` で現在の本文を取得してから変更を加える。
-- list 系コマンドは通常 1 ページだけ取得する。「すべて」と依頼された場合は出力の
-  ページ情報を確認して最終ページまで取得する。`esa category list` では `--all` も使える。
+- 更新時はまず `esa post view <id> --json body_md` で現在の本文を取得してから変更を加える。
+- list 系コマンドは通常 1 ページだけ取得する。ページ情報（`total_count` / `next_page` など）は
+  `--json` を付けたときだけ出るので、「すべて」と依頼された場合は `--json` で
+  `next_page` を見ながら `--page` を進める。`esa category list` では `--all` も使える。
 - 本文の受け渡しは 2 種類あるので混同しない:
   - `--body-file -`: 本文テキストだけを標準入力から受け取る（`jq -r` で組み立て）。
   - `esa api ... --input -`: ボディ JSON 全体を標準入力から受け取る（`jq -n` で組み立て）。
+- API リクエストに既定のタイムアウトは無い。待たせたくないときはコマンド名の前に
+  グローバルオプションを置く: `esa --timeout 30 post list`。
