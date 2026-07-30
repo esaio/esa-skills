@@ -56,6 +56,14 @@ npm install --ignore-scripts -g @esaio/esa-cli
 esa auth login
 ```
 
+既定では esa CLI の全コマンドが使うスコープを要求します。読み取りだけに絞るなど、
+要求するスコープを選びたい場合は `--scopes` で指定します。要求しなかったスコープが
+必要なコマンドは失敗するので、その場合は改めてログインしてください。
+
+```bash
+esa auth login --scopes "read:post read:comment"
+```
+
 ## インストール
 
 ### Claude Code
