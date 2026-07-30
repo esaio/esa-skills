@@ -56,6 +56,14 @@ npm install --ignore-scripts -g @esaio/esa-cli
 esa auth login
 ```
 
+By default this requests every scope the esa CLI commands use. To narrow it down —
+read-only access, for example — pass `--scopes`. Commands that need a scope you did
+not grant will fail, so log in again when that happens.
+
+```bash
+esa auth login --scopes "read:post read:comment"
+```
+
 ## Installation
 
 ### Claude Code
