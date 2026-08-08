@@ -90,6 +90,18 @@ esa attachment upload ./diagram.png   # stdout に添付の URL が出る
 esa post delete 123 --yes          # comment delete も同様
 ```
 
+## 検索クエリ
+
+`esa post search <query>` と `esa post list -q <query>` に渡すクエリは esa の検索記法。
+よく使うのは `in:`（カテゴリ前方一致）/ `on:`（完全一致）/ `#tag` / `@screen_name` /
+`wip:` / `created:>2025-01-01` / `-` による否定 / `sort:updated-desc`。
+記法の一覧・比較演算子・ソートキーは
+[references/search-options.md](references/search-options.md) を参照する。
+
+```bash
+esa post search 'in:日報 @alice wip:false sort:created-desc'
+```
+
 ## 変更操作の安全性
 
 - 作成・更新・コメント時は、対象チームと WIP / Ship の状態を依頼から確定できない場合だけ確認する。
