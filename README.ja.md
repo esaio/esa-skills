@@ -1,12 +1,12 @@
 [English](README.md)
 
-# esa-skills
+# esa Skills
 
 AI エージェントから [esa](https://esa.io) を操作するためのスキル集。
 
 ## 概要
 
-esa-skills は、AI エージェントに esa チームを直接操作させるスキルを提供します。
+esa Skills は、AI エージェントに esa チームを直接操作させるスキルを提供します。
 自然言語の指示で、記事の検索・取得・作成・編集、コメント投稿、カテゴリ・タグの
 参照、添付ファイルの操作などを、[esa CLI](https://www.npmjs.com/package/@esaio/esa-cli)
 経由で行えます。
@@ -113,7 +113,7 @@ gh skill install esaio/esa-skills esa-cli --agent codex --scope user
 
 [`npx skills`](https://github.com/vercel-labs/skills) は各エージェント横断の
 スキルパッケージマネージャです。検出したコーディングエージェントすべてに
-esa-cli を 1 コマンドで導入できます。複数のエージェントを併用している場合や、
+`esa-cli` スキルを 1 コマンドで導入できます。複数のエージェントを併用している場合や、
 上記に無いエージェントを使う場合に便利です。
 
 ```bash
