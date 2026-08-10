@@ -1,12 +1,12 @@
 [日本語](README.ja.md)
 
-# esa-skills
+# esa Skills
 
 A collection of skills for operating [esa](https://esa.io) from AI agents.
 
 ## Overview
 
-esa-skills provides skills that let AI agents operate your esa team directly.
+esa Skills provides skills that let AI agents operate your esa team directly.
 With natural language instructions, you can search, read, create, and edit posts,
 post comments, browse categories and tags, and manage attachments — all through
 the [esa CLI](https://www.npmjs.com/package/@esaio/esa-cli).
@@ -112,8 +112,9 @@ gh skill install esaio/esa-skills esa-cli --agent codex --scope user
 ### Any agent (npx skills)
 
 [`npx skills`](https://github.com/vercel-labs/skills) is a cross-agent skills
-package manager. It installs esa-cli into every coding agent it detects with a
-single command — handy when you use more than one agent, or one not listed above.
+package manager. It installs the `esa-cli` skill into every coding agent it
+detects with a single command — handy when you use more than one agent, or one
+not listed above.
 
 ```bash
 # Install into all detected agents (project-local)
